@@ -30,6 +30,7 @@ import org.gradle.api.internal.tasks.TaskEngine;
 import org.gradle.api.invocation.Build;
 import org.gradle.api.logging.LogLevel;
 import org.gradle.api.plugins.DefaultConvention;
+import org.gradle.api.plugins.ConventionValueName;
 import org.gradle.api.tasks.Directory;
 import org.gradle.api.tasks.util.BaseDirConverter;
 import org.gradle.groovy.scripts.ScriptSource;
@@ -623,16 +624,28 @@ public abstract class AbstractProject implements ProjectInternal {
         return createTask(new HashMap<String, Object>(), name, (TaskAction) null);
     }
 
+    public Task createTask(String name, ConventionValueName<?> ... conventionValueNames) {
+        return createTask(new HashMap<String, Object>(), name, conventionValueNames);
+    }
+
     public Task createTask(Map<String, ?> args, String name) {
         return createTask(args, name, (TaskAction) null);
+    }
+
+    public Task createTask(Map<String, ?> args, String name, ConventionValueName<?> ... conventionValueNames) {
+        return createTask(args, name, (TaskAction) null, conventionValueNames);
     }
 
     public Task createTask(String name, TaskAction action) {
         return createTask(new HashMap<String, Object>(), name, action);
     }
 
-    public Task createTask(Map args, String name, TaskAction action) {
-        Task task = taskFactory.createTask(this, getTasks(), args, name);
+    public Task createTask(String name, TaskAction action, ConventionValueName<?> ... conventionValueNames) {
+        return createTask(new HashMap<String, Object>(), name, action, conventionValueNames);
+    }
+
+    public Task createTask(Map<String, ?> args, String name, TaskAction action, ConventionValueName<?> ... conventionValueNames) {
+        Task task = taskFactory.createTask(this, getTasks(), args, name, conventionValueNames);
         taskEngine.addTask(task);
         if (action != null) {
             task.doFirst(action);

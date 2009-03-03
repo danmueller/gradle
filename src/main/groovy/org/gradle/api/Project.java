@@ -445,6 +445,8 @@ public interface Project extends Comparable<Project> {
      */
     Task createTask(String name) throws InvalidUserDataException;
 
+    Task createTask(String name, ConventionValueName<?> ... conventionValueNames);
+
     /**
      * <p>Creates a {@link Task} with the given name and adds it to this project. Before the task is returned, the given
      * action closure is passed to the task's {@link Task#doFirst(TaskAction)} method. Calling this method is equivalent
@@ -513,6 +515,8 @@ public interface Project extends Comparable<Project> {
      * @throws InvalidUserDataException If a task with the given name already exsists in this project.
      */
     Task createTask(Map<String, ?> args, String name, TaskAction action) throws InvalidUserDataException;
+
+    Task createTask(Map<String, ?> args, String name, TaskAction action, ConventionValueName<?> ... conventionValueNames) throws InvalidUserDataException;
 
     /**
      * <p>Creates a {@link Task} with the given name and adds it to this project. Before the task is returned, the given

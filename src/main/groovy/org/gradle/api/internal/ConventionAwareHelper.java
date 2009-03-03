@@ -19,7 +19,8 @@ package org.gradle.api.internal;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Task;
 import org.gradle.api.plugins.DefaultConvention;
-import org.gradle.api.tasks.ConventionValue;
+import org.gradle.api.plugins.ConventionValueName;
+import org.gradle.api.plugins.ConventionValue;
 import org.gradle.util.ReflectionUtil;
 
 import java.util.HashMap;
@@ -36,23 +37,23 @@ public class ConventionAwareHelper {
 
     private Task source;
 
-    private Map<String, ConventionValue> conventionMapping = new HashMap<String, ConventionValue>();
-    private Map<String, Object> conventionMappingCache = new HashMap<String, Object>();
+    private Map<ConventionValueName<?>, ConventionValue<?>> conventionMapping = new HashMap<ConventionValueName<?>, ConventionValue<?>>();
+    private Map<ConventionValueName<?>, Object> conventionMappingCache = new HashMap<ConventionValueName<?>, Object>();
 
     public ConventionAwareHelper(Task source) {
         this.source = source;
     }
 
-    public Task convention(DefaultConvention convention, Map<String, ConventionValue> conventionMapping) {
+    public Task convention(DefaultConvention convention, Map<ConventionValueName<?>, ConventionValue<?>> conventionMapping) {
         this.convention = convention;
         this.conventionMapping = conventionMapping;
         return source;
     }
 
-    public Object conventionMapping(Map<String, ConventionValue> mapping) {
-        Iterator keySetIterator = mapping.keySet().iterator();
+    public Object conventionMapping(Map<ConventionValueName<?>, ConventionValue<?>> mapping) {
+        Iterator<ConventionValueName<?>> keySetIterator = mapping.keySet().iterator();
         while (keySetIterator.hasNext()) {
-            String propertyName = (String) keySetIterator.next();
+            ConventionValueName<?> propertyName = keySetIterator.next();
             if (!ReflectionUtil.hasProperty(source, propertyName)) {
                 throw new InvalidUserDataException("You can't map a property that does not exists: propertyName= " + propertyName);
             }
@@ -61,7 +62,7 @@ public class ConventionAwareHelper {
         return source;
     }
 
-    public Object getConventionValue(String propertyName) {
+    public <T> T getConventionValue(ConventionValueName<T> propertyName) {
         Object value = ReflectionUtil.getProperty(source, propertyName);
         return getConventionValue(value, propertyName);
     }

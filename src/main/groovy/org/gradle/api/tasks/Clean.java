@@ -41,7 +41,7 @@ public class Clean extends ConventionTask {
 
     private ExistingDirsFilter existingDirsFilter = new ExistingDirsFilter();
 
-    public Clean(final Project project, String name, ConventionValueName buildDir) {
+    public Clean(final Project project, String name, ConventionValueName<File> buildDir) {
         super(project, name);
         doFirst(new TaskAction() {
             public void execute(Task task) {

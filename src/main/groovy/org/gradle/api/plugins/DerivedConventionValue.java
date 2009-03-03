@@ -4,13 +4,13 @@ package org.gradle.api.plugins;
  * @author Tom Eyckmans
  */
 public abstract class DerivedConventionValue<T> implements ConventionValue<T> {
-    private final ConventionValueName name;
+    protected final ConventionValueName<T> name;
 
-    public DerivedConventionValue(ConventionValueName name) {
+    public DerivedConventionValue(ConventionValueName<T> name) {
         this.name = name;
     }
 
-    public ConventionValueName getName() {
+    public ConventionValueName<T> getName() {
         return name;
     }
 

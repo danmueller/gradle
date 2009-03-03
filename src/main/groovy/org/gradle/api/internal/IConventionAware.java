@@ -16,21 +16,25 @@
 
 package org.gradle.api.internal;
 
-import org.gradle.api.tasks.ConventionValue;
+import org.gradle.api.plugins.ConventionValueName;
+import org.gradle.api.tasks.TaskValueName;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * @author Hans Dockter
  */
 public interface IConventionAware {
-    Object conventionMapping(Map<String, ConventionValue> mapping);
+    <T> Object conventionMapping(TaskValueName<T> taskValueName, ConventionValueName<T> conventionValueName);
 
-    Object conventionProperty(String name);
+    <T extends List> Object conventionMapping(TaskValueName<T> taskValueName, ConventionValueName<T>...conventionValueNames);
 
-    void setConventionMapping(Map<String, ConventionValue> conventionMapping);
+    <T> T conventionProperty(ConventionValueName<T> name);
 
-    Map<String, ConventionValue> getConventionMapping();
+//    void setConventionMapping(Map<String, ConventionValue> conventionMapping);
+
+//    Map<String, ConventionValue> getConventionMapping();
     
     /**
      * Returns a value for a property of a convention aware object. If the internal value is different to null,
@@ -41,5 +45,13 @@ public interface IConventionAware {
      * @param propertyName The name of the propery of the convention aware object
      * @return The value of a property
      */
-    Object conv(Object internalValue, String propertyName);
+//    Object conv(Object internalValue, String propertyName);
+
+    /**
+     *
+     * @param valueName
+     * @param <T>
+     * @return
+     */
+    <T> org.gradle.api.plugins.ConventionValue<T> getConventionValue(ConventionValueName<T> valueName);
 }

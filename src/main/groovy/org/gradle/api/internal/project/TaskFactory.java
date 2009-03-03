@@ -19,6 +19,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.plugins.ConventionValueName;
 import org.gradle.api.internal.DefaultTask;
 import org.gradle.util.GUtil;
 
@@ -26,12 +27,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Arrays;
 
 /**
  * @author Hans Dockter
  */
 public class TaskFactory implements ITaskFactory {
-    public Task createTask(Project project, Map tasksMap, Map args, String name) {
+    public Task createTask(Project project, Map tasksMap, Map args, String name, ConventionValueName<?>... conventionValueNames) {
         if (!GUtil.isTrue(name)) {
             throw new InvalidUserDataException("The name of the task must be set!");
         }
@@ -52,7 +54,7 @@ public class TaskFactory implements ITaskFactory {
         return task;
     }
 
-    private Task createTaskObject(Project project, Class type, String name) {
+    private Task createTaskObject(Project project, Class type, String name, ConventionValueName<?> ... conventionValueNames) {
         if (!Task.class.isAssignableFrom(type)) {
             throw new GradleException(String.format(
                     "Cannot create task of type '%s' as it does not implement the Task interface.",
@@ -60,7 +62,15 @@ public class TaskFactory implements ITaskFactory {
         }
         Constructor constructor;
         try {
-            constructor = type.getDeclaredConstructor(Project.class, String.class);
+            Class[] constructorParameterClasses = new Class[2+conventionValueNames.length];
+            constructorParameterClasses[0] = Project.class;
+            constructorParameterClasses[1] = String.class;
+            int i = 2;
+            for ( ConventionValueName<?> conventionValueName : conventionValueNames ) {
+                constructorParameterClasses[i++] = conventionValueName.getClass();
+            }
+
+            constructor = type.getDeclaredConstructor(constructorParameterClasses);
         } catch (NoSuchMethodException e) {
             throw new GradleException(String.format(
                     "Cannot create task of type '%s' as it does not have an appropriate public constructor.",
@@ -68,7 +78,14 @@ public class TaskFactory implements ITaskFactory {
         }
 
         try {
-            return (Task) constructor.newInstance(project, name);
+            Object[] constructorParameterArguments = new Object[2+conventionValueNames.length];
+            constructorParameterArguments[0] = project;
+            constructorParameterArguments[1] = name;
+            int i = 2;
+            for ( ConventionValueName<?> conventionValueName : conventionValueNames ) {
+                constructorParameterArguments[i++] = conventionValueName;
+            }
+            return (Task) constructor.newInstance(constructorParameterArguments);
         } catch (InvocationTargetException e) {
             throw new GradleException(String.format("Could not create task of type '%s'.", type.getSimpleName()),
                     e.getCause());

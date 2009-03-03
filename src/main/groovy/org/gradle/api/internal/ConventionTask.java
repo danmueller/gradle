@@ -18,12 +18,14 @@ package org.gradle.api.internal;
 
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.tasks.TaskValueName;
+import org.gradle.api.plugins.ConventionValue;
 import org.gradle.api.plugins.ConventionValueName;
 import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.OverwritableConventionValue;
-import org.gradle.api.tasks.ConventionValue;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * @author Hans Dockter
@@ -39,35 +41,43 @@ public abstract class ConventionTask extends DefaultTask implements IConventionA
         this.convention = project.getConvention();
     }
 
+    public <T> Object conventionMapping(TaskValueName<T> taskValueName, ConventionValueName<T> conventionValueName) {
+
+    }
+
+    public <T extends List> Object conventionMapping(TaskValueName<T> taskValueName, ConventionValueName<T>...conventionValueNames) {
+
+    }
+
     public Task conventionMapping(Map<String, ConventionValue> mapping) {
         return (Task) conventionAwareHelper.conventionMapping(mapping);
     }
 
-    public Object conventionProperty(String name) {
-        return conventionAwareHelper.getConventionValue(name);
-    }
+//    public Object conventionProperty(String name) {
+//        return conventionAwareHelper.getConventionValue(name);
+//    }
 
-    public void setConventionMapping(Map<String, ConventionValue> conventionMapping) {
-        conventionAwareHelper.setConventionMapping(conventionMapping);
-    }
+//    public void setConventionMapping(Map<String, ConventionValue> conventionMapping) {
+//        conventionAwareHelper.setConventionMapping(conventionMapping);
+//    }
 
-    public Map<String, ConventionValue> getConventionMapping() {
-        return conventionAwareHelper.getConventionMapping();
-    }
+//    public Map<String, ConventionValue> getConventionMapping() {
+//        return conventionAwareHelper.getConventionMapping();
+//    }
 
-    public ConventionAwareHelper getConventionAwareHelper() {
-        return conventionAwareHelper;
-    }
+//    public ConventionAwareHelper getConventionAwareHelper() {
+//        return conventionAwareHelper;
+//    }
 
-    public void setConventionAwareHelper(ConventionAwareHelper conventionAwareHelper) {
-        this.conventionAwareHelper = conventionAwareHelper;
-    }
+//    public void setConventionAwareHelper(ConventionAwareHelper conventionAwareHelper) {
+//        this.conventionAwareHelper = conventionAwareHelper;
+//    }
 
-    public Object conv(Object internalValue, String propertyName) {
-        return conventionAwareHelper.getConventionValue(internalValue, propertyName);
-    }
+//    public Object conv(Object internalValue, String propertyName) {
+//        return conventionAwareHelper.getConventionValue(internalValue, propertyName);
+//    }
 
-    public  <T> org.gradle.api.plugins.ConventionValue<T> getConventionValue(ConventionValueName valueName) {
+    public  <T> org.gradle.api.plugins.ConventionValue<T> getConventionValue(ConventionValueName<T> valueName) {
         return new OverwritableConventionValue<T>(convention.<T>getConventionValue(valueName));
     }
 }
