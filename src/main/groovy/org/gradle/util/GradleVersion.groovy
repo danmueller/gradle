@@ -24,23 +24,21 @@ import org.apache.tools.ant.Main
  * @author Hans Dockter
  */
 class GradleVersion {
-    final static String BUILD_TIME = 'buildTime'
-    final static String VERSION = 'version'
-    final static String FILE_NAME = 'version.properties'
+    
     public final static String URL = 'http://www.gradle.org'
 
-    Properties versionProperties
+    GradleVersionProperties versionProperties
 
     GradleVersion() {
-        versionProperties = GUtil.loadProperties(getClass().getResourceAsStream('/' + FILE_NAME))
+        versionProperties = new GradleVersionProperties()
     }
 
     String getVersion() {
-        versionProperties[VERSION]
+        versionProperties.version
     }
 
     String getBuildTime() {
-        versionProperties[BUILD_TIME]
+        versionProperties.buildTime
     }
 
     String prettyPrint() {

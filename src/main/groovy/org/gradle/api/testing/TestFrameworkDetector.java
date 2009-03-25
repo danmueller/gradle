@@ -13,4 +13,7 @@ public interface TestFrameworkDetector {
     File getTestClassesDirectory();
 
     Set<String> getTestClassNames();
+
+//    TestInfo isTest(TestSuite testSuite, File testClassFile);
+
 }

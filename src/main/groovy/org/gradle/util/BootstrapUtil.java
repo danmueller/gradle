@@ -23,8 +23,16 @@ import java.util.ArrayList;
  * @author Hans Dockter
  */
 public class BootstrapUtil {
+    public static File getGradleHomeDir() {
+        return new File(System.getProperty("gradle.home"));
+    }
+
+    public static File getGradleHomeLibDir() {
+        return new File(getGradleHomeDir(), "lib");
+    }
+
     public static File[] getGradleHomeLibClasspath() {
-        File gradleHomeLib = new File(System.getProperty("gradle.home") + "/lib");
+        File gradleHomeLib = getGradleHomeLibDir();
         if (gradleHomeLib.isDirectory()) {
             return gradleHomeLib.listFiles();
         }

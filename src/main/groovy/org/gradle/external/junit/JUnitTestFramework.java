@@ -27,6 +27,7 @@ import org.gradle.api.tasks.testing.junit.AntJUnitReport;
 import org.gradle.api.tasks.testing.junit.JUnitOptions;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.gradle.external.junit.JUnitTestFrameworkObjectFactory;
 
 import java.util.Set;
 import java.util.Collection;
@@ -44,13 +45,23 @@ public class JUnitTestFramework extends AbstractTestFramework {
     private JUnitDetector detector = null;
 
     public JUnitTestFramework() {
-        super("JUnit");
-    }
+        super("junit", "JUnit", new JUnitTestFrameworkObjectFactory());
 
-    public void initialize(Project project, Test testTask) {
         antJUnitExecute = new AntJUnitExecute();
         antJUnitReport = new AntJUnitReport();
         options = new JUnitOptions(this);
+    }
+
+    JUnitTestFramework(AntJUnitExecute antJUnitExecute, AntJUnitReport antJUnitReport, JUnitOptions options) {
+        super("junit", "JUnit", new JUnitTestFrameworkObjectFactory());
+
+        this.antJUnitExecute = antJUnitExecute;
+        this.antJUnitReport = antJUnitReport;
+        this.options = options;
+    }
+
+    public void initialize(Project project, Test testTask) {
+
 
         final Set<Class<? extends Plugin>> appliedPlugins = project.getAppliedPlugins();
 
@@ -84,25 +95,17 @@ public class JUnitTestFramework extends AbstractTestFramework {
         return options;
     }
 
-    void setOptions(JUnitOptions options) {
-        this.options = options;
-    }
-
     AntJUnitExecute getAntJUnitExecute() {
         return antJUnitExecute;
     }
 
-    void setAntJUnitExecute(AntJUnitExecute antJUnitExecute) {
-        this.antJUnitExecute = antJUnitExecute;
-    }
+
 
     AntJUnitReport getAntJUnitReport() {
         return antJUnitReport;
     }
 
-    void setAntJUnitReport(AntJUnitReport antJUnitReport) {
-        this.antJUnitReport = antJUnitReport;
-    }
+    
 
     public boolean isTestClass(File testClassFile) {
         return detector.processPossibleTestClass(testClassFile);

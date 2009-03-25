@@ -20,6 +20,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.testing.TestFramework;
 import org.gradle.api.artifacts.FileCollection;
+import org.gradle.api.testing.TestFramework;
 import org.gradle.api.internal.AbstractTask;
 import org.gradle.api.internal.project.AbstractProject;
 import org.gradle.api.tasks.AbstractConventionTaskTest;
@@ -81,7 +82,7 @@ public class TestTest extends AbstractConventionTaskTest {
         test = new Test(getProject(), AbstractTaskTest.TEST_TASK_NAME);
         ((AbstractProject) test.getProject()).setProjectDir(TEST_ROOT_DIR);
         context.checking(new Expectations(){{
-            one(testFrameworkMock).initialize(getProject(), test);
+//            one(testFrameworkMock).initialize(getProject(), test);
         }});
         test.useTestFramework(testFrameworkMock);
         

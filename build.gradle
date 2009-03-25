@@ -136,8 +136,7 @@ dependencies {
     runtime "org.apache.ant:ant-junit:1.7.0@jar",
             "org.apache.ant:ant-launcher:1.7.0@jar",
             "org.apache.ant:ant-nodeps:1.7.0@jar",
-            "org.apache.ant:ant-trax:1.7.0@jar",
-            "junit:junit:4.5"
+            "org.apache.ant:ant-trax:1.7.0@jar"
 
     def FIRST_LEVEL_JMOCK = ['org.hamcrest:hamcrest-core:1.1@jar', 'org.hamcrest:hamcrest-library:1.1@jar', 'org.jmock:jmock-junit4:2.4.0@jar']
     testCompile "junit:junit:4.5", "xmlunit:xmlunit:1.2", FIRST_LEVEL_JMOCK

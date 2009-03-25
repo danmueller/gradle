@@ -67,4 +67,28 @@ class TestNGDetector extends AbstractTestFrameworkDetector<TestNGTestClassDetect
 
         return isTest;
     }
+
+    /*protected TestInfo createTestInfo(TestSuite testSuite, File testClassFile, TestNGTestClassDetecter classVisitor) {
+        TestInfo testInfo = null;
+
+        if ( !classVisitor.isAbstract() ) {
+            final TestNGTestClassType testClassType = classVisitor.getTestClassType();
+            if ( testClassType == null ) {
+                final File superClassFile = getSuperTestClassFile(testSuite, classVisitor.getSuperClassName());
+                if ( superClassFile != null )
+                    testInfo = isTest(testSuite, superClassFile);
+            }
+            else {
+                switch(testClassType) {
+                    case TESTCASE:
+                        testInfo = new TestNGTestClassTestInfo(classVisitor.getClassName());
+                        break;
+                    default:
+                        throw new GradleException("encounterd unsupported test class type " + testClassType);
+                }
+            }
+        }
+
+        return testInfo;
+    }*/
 }

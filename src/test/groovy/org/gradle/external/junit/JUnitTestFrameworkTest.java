@@ -42,14 +42,12 @@ public class JUnitTestFrameworkTest extends AbstractTestFrameworkTest {
         jUnitForkOptionsMock = context.mock(JunitForkOptions.class);
         antBuilderMock = context.mock(AntBuilder.class);
 
-        jUnitTestFramework = new JUnitTestFramework();
+        jUnitTestFramework = new JUnitTestFramework(antJUnitExecuteMock, antJUnitReportMock, jUnitOptionsMock);
     }
 
     @org.junit.Test
     public void testInitialize()
     {
-        setMocks();
-
         context.checking(new Expectations(){{
             one(projectMock).getAppliedPlugins(); will(returnValue(new HashSet(Arrays.asList(JavaPlugin.class))));
             one(jUnitOptionsMock).getForkOptions();will(returnValue(jUnitForkOptionsMock));
@@ -71,8 +69,6 @@ public class JUnitTestFrameworkTest extends AbstractTestFrameworkTest {
     @org.junit.Test
     public void testExecute()
     {
-        setMocks();
-
         expectHandleEmptyIncludesExcludes();
 
         context.checking(new Expectations() {{
@@ -95,8 +91,6 @@ public class JUnitTestFrameworkTest extends AbstractTestFrameworkTest {
     @org.junit.Test
     public void testReport()
     {
-        setMocks();
-
         context.checking(new Expectations() {{
             one(testMock).getTestResultsDir();will(returnValue(testResultsDir));
             one(testMock).getTestReportDir();will(returnValue(testReportDir));
@@ -108,12 +102,5 @@ public class JUnitTestFrameworkTest extends AbstractTestFrameworkTest {
         }});
 
         jUnitTestFramework.report(projectMock, testMock);
-    }
-
-    private void setMocks()
-    {
-        jUnitTestFramework.setAntJUnitExecute(antJUnitExecuteMock);
-        jUnitTestFramework.setAntJUnitReport(antJUnitReportMock);
-        jUnitTestFramework.setOptions(jUnitOptionsMock);
     }
 }

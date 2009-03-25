@@ -330,7 +330,7 @@ public class Test extends ConventionTask {
         if ( testFramework == null )
             throw new IllegalArgumentException("testFramework is null!");
 
-        testFramework.initialize(getProject(), this);
+//        testFramework.initialize(getProject(), this);
 
         this.testFramework = testFramework;
 

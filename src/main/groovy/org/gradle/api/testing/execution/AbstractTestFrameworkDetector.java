@@ -76,6 +76,7 @@ public abstract class AbstractTestFrameworkDetector<T extends TestClassVisitor> 
         if  ( StringUtils.isEmpty(superClassName) ) throw new IllegalArgumentException("superClassName is empty!");
         if (    !superClassName.startsWith("java/lang") &&
                 !superClassName.startsWith("groovy/lang") ) {
+
             final Iterator<File> testClassDirectoriesIt = testClassDirectories.iterator();
 
             File superTestClassFile = null;

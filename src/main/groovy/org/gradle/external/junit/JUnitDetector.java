@@ -67,4 +67,31 @@ public class JUnitDetector extends AbstractTestFrameworkDetector<JUnitTestClassD
 
         return isTest;
     }
+
+    /*protected TestInfo createTestInfo(TestSuite testSuite, File testClassFile, JUnitTestClassDetecter classVisitor) {
+        TestInfo testInfo = null;
+
+        if ( !classVisitor.isAbstract() ) {
+            final JUnitTestClassType testClassType = classVisitor.getTestClassType();
+            if ( testClassType == null ) {
+                final File superClassFile = getSuperTestClassFile(testSuite, classVisitor.getSuperClassName());
+                if ( superClassFile != null )
+                    testInfo = isTest(testSuite, superClassFile);
+            }
+            else {
+                switch(testClassType) {
+                    case TESTCASE:
+                        testInfo = new JUnitTestCaseTestInfo(classVisitor.getClassName());
+                        break;
+                    case TESTSUITE:
+                        testInfo = new JUnitTestSuiteTestInfo(classVisitor.getClassName());
+                        break;
+                    default:
+                        throw new GradleException("encounterd unsupported test class type " + testClassType);
+                }
+            }
+        }
+
+        return testInfo;
+    }*/
 }

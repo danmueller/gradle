@@ -90,6 +90,36 @@ public class ExecHandleBuilder {
         return this;
     }
 
+    public ExecHandleBuilder argument(List<File> files) {
+        return argument(files, System.getProperty("path.separator"));
+    }
+
+    public ExecHandleBuilder argument(File[] files) {
+        return argument(Arrays.asList(files));
+    }
+
+    public ExecHandleBuilder argument(File[] files, String separator) {
+        return argument(Arrays.asList(files), separator);
+    }
+
+    public ExecHandleBuilder argument(List<File> files, String separator) {
+
+        if ( files != null ) {
+            final int amountOfFiles = files.size();
+            if ( amountOfFiles > 0 ) {
+                final StringBuilder argumentBuilder = new StringBuilder();
+                for (int i = 0; i < amountOfFiles; i++) {
+                    argumentBuilder.append(files.get(i).getAbsolutePath());
+                    if ( i + 1 < amountOfFiles)
+                        argumentBuilder.append(separator);
+                }
+                arguments(argumentBuilder.toString());
+            }
+        }
+
+        return this;
+    }
+
     public List<String> getArguments() {
         return arguments;
     }

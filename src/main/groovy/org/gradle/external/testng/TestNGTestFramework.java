@@ -21,7 +21,7 @@ public class TestNGTestFramework extends AbstractTestFramework {
     private TestNGDetector detector;
 
     public TestNGTestFramework() {
-        super("TestNG");
+        super("testng", "TestNG", new TestNGTestFrameworkObjectFactory());
     }
 
     public void initialize(Project project, Test testTask) {
