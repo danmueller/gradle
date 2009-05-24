@@ -26,14 +26,24 @@ class StateFileChangeListenerUtil {
     }
 
     void produceCreatedItemEvent(final File fileOrDirectory, final StateFileItem newState) {
+        if ( fileOrDirectory == null ) throw new IllegalArgumentException("fileOrDirectory is null!");
+        if ( newState == null ) throw new IllegalArgumentException("newState is null!");
+
         changeProcessorEventProducer.produce(stateChangeEventFactory.createStateChangeEvent(fileOrDirectory, null, newState));
     }
 
     void produceChangedItemEvent(final File fileOrDirectory, final StateFileItem oldState, final StateFileItem newState) {
+        if ( fileOrDirectory == null ) throw new IllegalArgumentException("fileOrDirectory is null!");
+        if ( oldState == null ) throw new IllegalArgumentException("oldState is null!");
+        if ( newState == null ) throw new IllegalArgumentException("newState is null!");
+
         changeProcessorEventProducer.produce(stateChangeEventFactory.createStateChangeEvent(fileOrDirectory, oldState, newState));
     }
 
     void produceDeletedItemEvent(final File fileOrDirectory, final StateFileItem oldState) {
+        if ( fileOrDirectory == null ) throw new IllegalArgumentException("fileOrDirectory is null!");
+        if ( oldState == null ) throw new IllegalArgumentException("oldState is null!");
+        
         changeProcessorEventProducer.produce(stateChangeEventFactory.createStateChangeEvent(fileOrDirectory, oldState, null));
     }
 }
